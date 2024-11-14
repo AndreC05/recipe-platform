@@ -1,4 +1,21 @@
-export default function Posts({ postsArray }) {
+import { useEffect, useState } from "react";
+
+export default function Posts() {
+  //------------------------------------------------------------Constants
+  const [postsArray, setPostsArray] = useState([]);
+
+  //--------------------------------------------------------------Fetch Posts
+  useEffect(() => {
+    async function getPosts() {
+      const response = await fetch("http://localhost:8080/recipe_posts");
+      const data = await response.json();
+      setPostsArray(data);
+      console.log(data);
+    }
+
+    getPosts();
+  }, []);
+
   return (
     <div className="posts">
       <h2>Welcome to the Posts page!!</h2>
