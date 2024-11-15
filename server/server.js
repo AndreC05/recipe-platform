@@ -17,6 +17,16 @@ app.get("/", function (_, response) {
   response.json("Welcome to the Root Route!");
 });
 
+//Authors GET
+app.get("/authors", async (_, response) => {
+  const result = await db.query(
+    `SELECT recipe_authors.id, recipe_authors.name FROM recipe_authors`
+  );
+
+  const authors = result.rows;
+  response.send(authors);
+});
+
 // /recipe_posts GET
 app.get("/recipe_posts", async (_, response) => {
   const result = await db.query(
@@ -41,6 +51,24 @@ app.post("/recipe_posts", async (request, response) => {
 
   //response
   response.json(insertData);
+});
+
+//likes put
+app.put("/recipe_posts", async (request, response) => {
+  const { id } = request.body;
+  const updateLikes = await db.query(
+    `UPDATE recipe_posts SET likes = likes + 1 WHERE id = ${id}`
+  );
+  response.send(updateLikes);
+});
+
+//post DELETE
+app.delete("/recipe_posts", async (request, response) => {
+  const { id } = request.body;
+  const deletePost = await db.query(
+    `DELETE FROM recipe_posts WHERE id = ${id}`
+  );
+  response.send(deletePost);
 });
 
 //------------------------------------------------------------------------------Port
