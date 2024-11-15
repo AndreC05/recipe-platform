@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 export default function UserForm() {
   //------------------------------------------Form
   const [formValues, setFormValues] = useState({
-    author: "",
+    author_id: "",
     title: "",
     category_id: "",
     content: "",
@@ -27,7 +27,7 @@ export default function UserForm() {
 
     //reset form values after submitting
     setFormValues({
-      author: "",
+      author_id: "",
       title: "",
       category_id: "",
       content: "",
@@ -56,12 +56,12 @@ export default function UserForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="author">Username:</label>
+      <label htmlFor="author_id">Username:</label>
       <input
         type="text"
-        id="author"
-        name="author"
-        value={formValues.author}
+        id="author_id"
+        name="author_id"
+        value={formValues.author_id}
         onChange={handleInputChange}
         minLength={3}
         maxLength={20}

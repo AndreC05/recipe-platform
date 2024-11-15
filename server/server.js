@@ -17,8 +17,8 @@ app.get("/", function (_, response) {
   response.json("Welcome to the Root Route!");
 });
 
-//Authors GET
-app.get("/authors", async (_, response) => {
+// /authors GET
+app.get("/recipe_authors", async (_, response) => {
   const result = await db.query(
     `SELECT recipe_authors.id, recipe_authors.name FROM recipe_authors`
   );
@@ -27,10 +27,25 @@ app.get("/authors", async (_, response) => {
   response.send(authors);
 });
 
+// /authors POST
+app.post("/recipe_authors", async (request, response) => {
+  //get request body
+  const { name } = request.body;
+
+  //query to database
+  const insertData = await db.query(
+    `INSERT INTO recipe_authors (name) VALUES ($1)`,
+    [name]
+  );
+
+  //response
+  response.json(insertData);
+});
+
 // /recipe_posts GET
 app.get("/recipe_posts", async (_, response) => {
   const result = await db.query(
-    `SELECT recipe_posts.id, recipe_posts.author, recipe_posts.title, recipe_posts.content, recipe_categories.name AS category, TO_CHAR(recipe_posts.post_date, 'DD-MM-YYYY') AS post_date, recipe_posts.likes FROM recipe_posts JOIN recipe_categories ON recipe_posts.category_id = recipe_categories.id ORDER BY recipe_posts.id DESC`
+    `SELECT recipe_posts.id, recipe_authors.name AS author, recipe_posts.title, recipe_posts.content, recipe_categories.name AS category, TO_CHAR(recipe_posts.post_date, 'DD-MM-YYYY') AS post_date, recipe_posts.likes FROM recipe_posts JOIN recipe_categories ON recipe_posts.category_id = recipe_categories.id JOIN recipe_authors ON recipe_posts.author_id = recipe_authors.id ORDER BY recipe_posts.id DESC`
   );
 
   const recipe_posts = result.rows;
@@ -41,19 +56,19 @@ app.get("/recipe_posts", async (_, response) => {
 // /recipe_posts POST
 app.post("/recipe_posts", async (request, response) => {
   //get request body
-  const { author, title, content, category_id } = request.body;
+  const { author_id, title, content, category_id } = request.body;
 
   //query to database
   const insertData = await db.query(
-    `INSERT INTO recipe_posts (author, title, content, category_id) VALUES ($1, $2, $3, $4)`,
-    [author, title, content, category_id]
+    `INSERT INTO recipe_posts (author_id, title, content, category_id) VALUES ($1, $2, $3, $4)`,
+    [author_id, title, content, category_id]
   );
 
   //response
   response.json(insertData);
 });
 
-//likes put
+// /recipe_posts put
 app.put("/recipe_posts", async (request, response) => {
   const { id } = request.body;
   const updateLikes = await db.query(
@@ -62,7 +77,7 @@ app.put("/recipe_posts", async (request, response) => {
   response.send(updateLikes);
 });
 
-//post DELETE
+// /recipe_posts DELETE
 app.delete("/recipe_posts", async (request, response) => {
   const { id } = request.body;
   const deletePost = await db.query(
