@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function Posts() {
+export default function Posts({ userLogin }) {
   //------------------------------------------------------------Constants
   const [postsArray, setPostsArray] = useState([]);
 
@@ -39,27 +39,33 @@ export default function Posts() {
 
   //---------------------------------------------------------------Handle Delete
   async function handleDelete(post) {
-    // id of post to delete
-    const body = { id: post.id };
+    if (userLogin.author_name === post.author) {
+      // id of post to delete
+      const body = { id: post.id };
 
-    //make delete request
-    await fetch("http://localhost:8080/recipe_posts", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
+      //make delete request
+      await fetch("http://localhost:8080/recipe_posts", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
 
-    //delete post from postsArray (to update displayed posts)
-    setPostsArray((oldPosts) =>
-      oldPosts.filter((postIndex) => postIndex.id !== post.id)
-    );
+      //delete post from postsArray (to update displayed posts)
+      setPostsArray((oldPosts) =>
+        oldPosts.filter((postIndex) => postIndex.id !== post.id)
+      );
+
+      alert("Your post has ben deleted");
+    } else {
+      alert("Only the author of this post can delete it");
+    }
   }
 
   return (
-    <div className="posts">
+    <div className="postsPage">
       <h2>Welcome to the Posts page!!</h2>
       {postsArray.map((post) => (
-        <div key={post.id}>
+        <div key={post.id} className="post">
           <h2>Author: {post.author}</h2>
           <h3>Recipe: {post.title}</h3>
           <h4>Category: {post.category}</h4>

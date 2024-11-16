@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function UserForm() {
+export default function UserForm({ userLogin, allAuthors, setAllAuthors }) {
   //------------------------------------------Form
   const [formValues, setFormValues] = useState({
     author_id: "",
@@ -10,6 +10,17 @@ export default function UserForm() {
   });
 
   const [isValid, setIsValid] = useState(false); //used to check that a category was selected
+
+  //----------------------------------------------------GET all authors
+  useEffect(() => {
+    async function getAuthors() {
+      const response = await fetch("http://localhost:8080/recipe_authors");
+      const data = await response.json();
+      setAllAuthors(data);
+    }
+
+    getAuthors();
+  }, []);
 
   //----------------------------------------------Category select dropdown validation
 
@@ -21,9 +32,18 @@ export default function UserForm() {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    const dataToPost = { ...formValues };
-    console.log(dataToPost);
-    await handlePost(dataToPost);
+    // find author in allAuthors
+    const matchingAuthor = allAuthors.find(
+      (author) => author.name === userLogin.author_name
+    );
+
+    //update formValues with the matching author_id
+    const updatedFormValues = {
+      ...formValues,
+      author_id: matchingAuthor.id,
+    };
+
+    await handlePost(updatedFormValues);
 
     //reset form values after submitting
     setFormValues({
@@ -55,18 +75,7 @@ export default function UserForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="author_id">Username:</label>
-      <input
-        type="text"
-        id="author_id"
-        name="author_id"
-        value={formValues.author_id}
-        onChange={handleInputChange}
-        minLength={3}
-        maxLength={20}
-        required
-      />
+    <form onSubmit={handleSubmit} className="userForm">
       <label htmlFor="title">Recipe Name:</label>
       <input
         type="text"

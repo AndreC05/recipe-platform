@@ -30,12 +30,12 @@ app.get("/recipe_authors", async (_, response) => {
 // /authors POST
 app.post("/recipe_authors", async (request, response) => {
   //get request body
-  const { name } = request.body;
+  const { author_name } = request.body;
 
   //query to database
   const insertData = await db.query(
     `INSERT INTO recipe_authors (name) VALUES ($1)`,
-    [name]
+    [author_name]
   );
 
   //response
