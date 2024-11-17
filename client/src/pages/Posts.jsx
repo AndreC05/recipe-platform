@@ -7,7 +7,9 @@ export default function Posts({ userLogin }) {
   //--------------------------------------------------------------Fetch Posts
   useEffect(() => {
     async function getPosts() {
-      const response = await fetch("http://localhost:8080/recipe_posts");
+      const response = await fetch(
+        "https://recipe-platform-002u.onrender.com/recipe_posts"
+      );
       const data = await response.json();
       setPostsArray(data);
     }
@@ -21,7 +23,7 @@ export default function Posts({ userLogin }) {
     const body = { id: post.id };
 
     //make put request
-    await fetch("http://localhost:8080/recipe_posts", {
+    await fetch("https://recipe-platform-002u.onrender.com/recipe_posts", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
@@ -44,7 +46,7 @@ export default function Posts({ userLogin }) {
       const body = { id: post.id };
 
       //make delete request
-      await fetch("http://localhost:8080/recipe_posts", {
+      await fetch("https://recipe-platform-002u.onrender.com/recipe_posts", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),

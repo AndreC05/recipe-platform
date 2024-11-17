@@ -14,7 +14,9 @@ export default function UserForm({ userLogin, allAuthors, setAllAuthors }) {
   //----------------------------------------------------GET all authors
   useEffect(() => {
     async function getAuthors() {
-      const response = await fetch("http://localhost:8080/recipe_authors");
+      const response = await fetch(
+        "https://recipe-platform-002u.onrender.com/recipe_authors"
+      );
       const data = await response.json();
       setAllAuthors(data);
     }
@@ -67,7 +69,7 @@ export default function UserForm({ userLogin, allAuthors, setAllAuthors }) {
 
   //------------------------------------------------------Handle Post request
   async function handlePost(data) {
-    await fetch("http://localhost:8080/recipe_posts", {
+    await fetch("https://recipe-platform-002u.onrender.com/recipe_posts", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
