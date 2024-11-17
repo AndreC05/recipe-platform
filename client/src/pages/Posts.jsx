@@ -63,17 +63,21 @@ export default function Posts({ userLogin }) {
 
   return (
     <div className="postsPage">
-      <h2>Welcome to the Posts page!!</h2>
+      <h2 id="pageTitle">Welcome to the Posts page!!</h2>
       {postsArray.map((post) => (
         <div key={post.id} className="post">
-          <h2>Author: {post.author}</h2>
-          <h3>Recipe: {post.title}</h3>
-          <h4>Category: {post.category}</h4>
-          <p>{post.content}</p>
-          <h4>Date: {post.post_date}</h4>
-          <p>Likes: {post.likes}</p>
-          <button onClick={() => handleLike(post)}>Like</button>
-          <button onClick={() => handleDelete(post)}>Delete</button>
+          <h2 id="authorDisplay">Author: {post.author}</h2>
+          <h3 id="recipeDisplay">Recipe: {post.title}</h3>
+          <h4 id="categoryDisplay">Category: {post.category}</h4>
+          <p id="contentDisplay">{post.content}</p>
+          <h4 id="dateDisplay">Date: {post.post_date}</h4>
+          <p id="likesDisplay">Likes: {post.likes}</p>
+          <button onClick={() => handleLike(post)} id="likeBtn">
+            Like
+          </button>
+          <button onClick={() => handleDelete(post)} id="deleteBtn">
+            Delete
+          </button>
         </div>
       ))}
     </div>
