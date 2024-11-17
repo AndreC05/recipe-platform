@@ -11,7 +11,7 @@
 
 # Reflection:
 
-Requirements achieved: \
+Requirements achieved:
 
 - Create a client using React.
 - Use Express to create your server, using both GET and POST endpoints.
@@ -21,7 +21,7 @@ Requirements achieved: \
 - Use SQL to retrieve posts from the database in your Express server.
 - Display all posts using .map().
 
-Stretch goals implemented: \
+Stretch goals implemented:
 
 - form validation (client-side).
 - Create dynamic pages using react-router-dom.
