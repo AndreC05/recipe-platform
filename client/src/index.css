@@ -175,7 +175,7 @@ main .userForm .content label {
 
 main .userForm .content textarea {
   width: 30rem;
-  height: 720px;
+  height: 450px;
   margin-left: 2.5rem;
   border: 2px solid rgb(255, 174, 0);
   background-color: rgb(13, 13, 56);
